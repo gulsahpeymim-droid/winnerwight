@@ -754,7 +754,7 @@ function vkiHesapla(kilo, boy) {
       ctx.fillText(kisi.ad, 210, y + 60);
       let vki = vkiHesapla(kisi.sonKilo || kisi.ilkKilo, kisi.boy);
 
-ctx.font = "28px Arial";
+ctx.font = "22px Arial";
 ctx.fillStyle = "#444444";
 ctx.fillText(
   `${kisi.cinsiyet || "-"} | ${kisi.yas || "-"} yaş | ${kisi.boy || "-"} cm | VKİ: ${vki}`,
@@ -762,7 +762,7 @@ ctx.fillText(
   y + 88
 );
 
-      ctx.font = "26px Arial";
+      ctx.font = "24px Arial";
       ctx.fillStyle = "#666666";
       ctx.fillText(`İlk: ${tarihFormatla(kisi.ilkTarih)} | ${kisi.ilkKilo} kg`, 210, y + 120);
       ctx.fillText(`Son: ${tarihFormatla(kisi.sonTarih)} | ${kisi.sonKilo} kg`, 210, y + 150);
@@ -773,7 +773,7 @@ ctx.fillText(
       ctx.font = "bold 42px Arial";
       ctx.fillText(`${verilen >= 0 ? verilen : "+" + Math.abs(verilen)} kg`, 1000, y + 70);
 
-      ctx.font = "bold 30px Arial";
+      ctx.font = "bold 26px Arial";
       ctx.fillStyle = "#555555";
       ctx.fillText(`%${yuzde} kayıp`, 1000, y + 115);
 
@@ -821,19 +821,19 @@ grafikKisiler.forEach((kisi, i) => {
   ctx.fillRect(x + 10, baseY - sonH, barW, sonH);
 
   ctx.fillStyle = "black";
-  ctx.font = "30px Arial";
+  ctx.font = "16px Arial";
   ctx.textAlign = "center";
   ctx.fillText(kisi.ilkKilo + " kg", x - 38, baseY - ilkH - 8);
   ctx.fillText(kisi.sonKilo + " kg", x + 37, baseY - sonH - 8);
 
-  ctx.font = "30px Arial";
+  ctx.font = "18px Arial";
   ctx.fillText(kisi.ad, x, baseY + 30);
 });
 
 ctx.fillStyle = "#FFD84D";
 ctx.fillRect(360, grafikY + 20, 25, 15);
 ctx.fillStyle = "black";
-ctx.font = "30px Arial";
+ctx.font = "18px Arial";
 ctx.fillText("İlk Kilo", 430, grafikY + 34);
 
 ctx.fillStyle = "#66BB6A";
@@ -878,8 +878,8 @@ ctx.fillText("Son Kilo", 595, grafikY + 34);
     let tamamlananlar = yarismacilar.filter(x => x.sonKilo !== "");
 
     const etiketler = tamamlananlar.map(x => x.ad);
-    let ilkKilolar = tamamlananlar.map(x => Number(x.ilkKilo) || 0);
-let sonKilolar = tamamlananlar.map(x => Number(x.sonKilo) || 0);
+    let ilkKilolar = yarismacilar.map(x => Number(x.ilkKilo) || 0);
+let sonKilolar = yarismacilar.map(x => Number(x.sonKilo) || 0);
 
     if (myChart) {
       myChart.destroy();
