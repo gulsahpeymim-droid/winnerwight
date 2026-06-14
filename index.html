@@ -445,7 +445,7 @@ m
           <td>${tarihFormatla(kisi.ilkTarih)}</td>
           <td>${kisi.gecBaslamaGunu} gün</td>
           <td>${kisi.ilkKilo} kg</td>
-          <td>${kisi.sonTarih || "-"}</td>
+          <td>${kisi.sonTarih ? tarihFormatla(kisi.sonTarih) : "-"}</td>
           <td>${kisi.sonKilo === "" ? "-" : kisi.sonKilo + " kg"}</td>
           <td>${farkYazi}</td>
           <td>${yuzdeKayip}</td>
