@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f77a91">
+  <meta charset="UTF-8">
+  <title>Diyet Yarışması Takip Programı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4efff;
+      margin: 0;
+      padding: 15px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      color: ##FFB3BA;
+      margin-bottom: 5px;
+    }
+
+    .ust-bilgi {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      background:  ##FFB3BA;
+      padding: 12px;
+      border-radius: 12px;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+
+    input, button, select {
+      width: 100%;
+      padding: 11px;
+      margin: 6px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #e6eb61;
+      color: black;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background:  #CDB4DB;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+   .butonlar {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #f77a91;
+      color: white;
+    }
+
+    .eksi {
+      color: green;
+      font-weight: bold;
+    }
+
+    .arti {
+      color: red;
+      font-weight: bold;
+    }
+
+    .sil {
+      background: #9D4EDD;
+      padding: 7px;
+      font-size: 13px;
+    }
+
+    .duzenle {
+      background: #cc9f00;
+      padding: 7px;
+      font-size: 13px;
+    }
+
+    .ozet {
+      margin-top: 15px;
+      padding: 12px;
+      background: #82dbf6;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #girisEkrani {
+      max-width: 350px;
+      margin: 80px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    @media print {
+      input, button, .form-alani, .butonlar, #girisEkrani {
+        display: none !important;
+      }
+
+      body {
+        background: black;
+      }
+
+      .container {
+        box-shadow: none;
+      }
+    }
+   .duzenle {
+   background: #9AD0EC;
+}
+
+.butonlar button {
+    width: 220px;
+}
+
+.butonlar input[type="file"] {
+    width: 220px;
+}
+table {
+    margin-left: auto;
+    width: 100%;
+}
+@media screen and (max-width: 768px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  input,
+  button,
+  select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ust-bilgi {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .butonlar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .butonlar button,
+  .butonlar input[type="file"] {
+    width: 100%;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    min-width: 90px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+}
+}
+</style>
+  
+</head>
+
+<body>
+
+<div id="girisEkrani" style="display:none;">
+  <h2>🔐 Diyet Yarışması</h2>
+  <p>Programa giriş şifresi</p>
+  <input type="password" id="sifreInput" placeholder="Şifre">
+  <button onclick="girisYap()">Giriş Yap</button>
+  <p style="font-size:13px;color:#777;">İlk şifre: 1234</p>
+</div>
+
+
+
+  <h1>🏆 Diyet Yarışması Takip Programı</h1>
+
+  <div class="form-alani">
+    <div class="grid">
+      <div>
+        <label>Yarışma Başlangıç Tarihi</label>
+        <input type="date" id="yarismaBaslangic">
+      </div>
+
+      <div>
+        <label>Yarışma Bitiş Tarihi</label>
+        <input type="date" id="yarismaBitis">
+      </div>
+
+      <div>
+        <label>Program Şifresi Değiştir</label>
+        <input type="password" id="yeniSifre" placeholder="Yeni şifre">
+      </div>
+    </div>
+
+    <button onclick="ayarKaydet()">Yarışma Bilgilerini Kaydet</button>
+    
+
+    <hr>
+
+    <div class="grid">
+      <input type="text" id="ad" placeholder="Katılımcı adı">
+      <input type="date" id="ilkTarih">
+      <input type="number" id="ilkKilo" placeholder="İlk kilo örn: 95.4" step="0.1">
+      <input type="date" id="sonTarih">
+      <input type="number" id="sonKilo" placeholder="Son kilo örn: 93.8" step="0.1">
+    </div>
+
+    <button onclick="kaydet()">Katılımcıyı Kaydet</button>
+  </div>
+<div class="ana-yerlesim">
+  <div class="sol-panel">
+  <div class="ust-bilgi">
+    <div id="toplamGun">Toplam yarışma günü: -</div>
+    <div id="kalanGun">Kalan gün: -</div>
+    <div id="katilimciSayisi">Katılımcı: 0</div>
+  </div>
+ <table>
+    <thead>
+      <tr>
+        <th>Sıra</th>
+        <th>Ad</th>
+        <th>İlk Tarih</th>
+        <th>Geç Başlama</th>
+        <th>İlk Kilo</th>
+        <th>Son Tarih</th>
+        <th>Son Kilo</th>
+        <th>Verilen / Alınan</th>
+        <th>% Kayıp</th>
+        <th>Durum</th>
+        <th>Düzenle</th>
+        <th>Sil</th>
+      </tr>
+    </thead>
+    <tbody id="liste"></tbody>
+  </table>
+  <div class="ozet" id="kazanan">Henüz veri yok.</div>
+
+  <div class="butonlar">
+    <button onclick="excelIndir()">Excel / CSV İndir</button>
+    <button onclick="pdfKaydet()">PDF Kaydet / Yazdır</button>
+    <button onclick="yedekIndir()">Yedek İndir</button>
+    <button onclick="sonucKartiPaylas()">Sonuç Kartı Paylaş</button>
+    <input type="file" id="yedekYukleInput" accept=".json" onchange="yedekYukle(event)">
+  </div>
+  </div>
+
+  <div class="sag-panel">
+ 
+    </div>
+</div>
+
+</div>
+
+<script>
+  let yarismacilar = JSON.parse(localStorage.getItem("yarismacilar")) || [];
+  let ayarlar = JSON.parse(localStorage.getItem("ayarlar")) || {
+    yarismaBaslangic: "",
+    yarismaBitis: "",
+    sifre: "1234"
+  };
+
+  let duzenlenenIndex = null;
+
+  function girisYap() {
+    let girilenSifre = document.getElementById("sifreInput").value;
+
+    if (girilenSifre === ayarlar.sifre) {
+      document.getElementById("girisEkrani").style.display = "none";
+      document.getElementById("programAlani").style.display = "block";
+      ayarlariYukle();
+      listele();
+    } else {
+      alert("Şifre yanlış.");
+    }
+  }
+
+  function ayarlariYukle() {
+    document.getElementById("yarismaBaslangic").value = ayarlar.yarismaBaslangic || "";
+    document.getElementById("yarismaBitis").value = ayarlar.yarismaBitis || "";
+    ustBilgiGuncelle();
+  }
+
+  function ayarKaydet() {
+    ayarlar.yarismaBaslangic = document.getElementById("yarismaBaslangic").value;
+    ayarlar.yarismaBitis = document.getElementById("yarismaBitis").value;
+
+    localStorage.setItem("ayarlar", JSON.stringify(ayarlar));
+    ustBilgiGuncelle();
+    listele();
+
+    alert("Yarışma bilgileri kaydedildi.");
+  }
+
+  function sifreDegistir() {
+    let yeniSifre = document.getElementById("yeniSifre").value;
+
+    if (yeniSifre.length < 4) {
+      alert("Şifre en az 4 karakter olmalı.");
+      return;
+    }
+
+    ayarlar.sifre = yeniSifre;
+    localStorage.setItem("ayarlar", JSON.stringify(ayarlar));
+    document.getElementById("yeniSifre").value = "";
+
+    alert("Şifre değiştirildi.");
+  }
+
+  function gunFarki(tarih1, tarih2) {
+    let t1 = new Date(tarih1);
+    let t2 = new Date(tarih2);
+    let farkMs = t2 - t1;
+    return Math.floor(farkMs / (1000 * 60 * 60 * 24));
+  }
+
+  function ustBilgiGuncelle() {
+    let baslangic = ayarlar.yarismaBaslangic;
+    let bitis = ayarlar.yarismaBitis;
+
+    if (baslangic && bitis) {
+      let toplam = gunFarki(baslangic, bitis) + 1;
+      document.getElementById("toplamGun").innerText = "Toplam yarışma günü: " + toplam + " gün";
+
+      let bugun = new Date().toISOString().split("T")[0];
+      let kalan = gunFarki(bugun, bitis);
+
+      document.getElementById("kalanGun").innerText =
+        kalan >= 0 ? "Kalan gün: " + kalan + " gün" : "Yarışma bitti";
+    } else {
+      document.getElementById("toplamGun").innerText = "Toplam yarışma günü: -";
+      document.getElementById("kalanGun").innerText = "Kalan gün: -";
+    }
+
+    document.getElementById("katilimciSayisi").innerText =
+      "Katılımcı: " + yarismacilar.length;
+  }
+
+  function kaydet() {
+    let ad = document.getElementById("ad").value.trim();
+    let ilkTarih = document.getElementById("ilkTarih").value;
+    let ilkKilo = parseFloat(document.getElementById("ilkKilo").value);
+    let sonTarih = document.getElementById("sonTarih").value;
+    let sonKilo = parseFloat(document.getElementById("sonKilo").value);
+
+    if (!ayarlar.yarismaBaslangic) {
+      alert("Önce yarışma başlangıç tarihini kaydet.");
+      return;
+    }
+
+    if (ad === "" || ilkTarih === "" || isNaN(ilkKilo)) {
+      alert("Ad, ilk tarih ve ilk kilo zorunlu.");
+      return;
+    }
+
+    let gecBaslamaGunu = gunFarki(ayarlar.yarismaBaslangic, ilkTarih);
+    if (gecBaslamaGunu < 0) gecBaslamaGunu = 0;
+
+    let kisi = {
+      ad: ad,
+      ilkTarih: ilkTarih,
+      gecBaslamaGunu: gecBaslamaGunu,
+      ilkKilo: ilkKilo,
+      sonTarih: sonTarih,
+      sonKilo: isNaN(sonKilo) ? "" : sonKilo
+    };
+
+    if (duzenlenenIndex === null) {
+      yarismacilar.push(kisi);
+    } else {
+      yarismacilar[duzenlenenIndex] = kisi;
+      duzenlenenIndex = null;
+    }
+
+    localStorage.setItem("yarismacilar", JSON.stringify(yarismacilar));
+
+    temizle();
+    listele();
+  }
+
+  function listele() {
+    let liste = document.getElementById("liste");
+    liste.innerHTML = "";
+
+    let siraliListe = [...yarismacilar].sort((a, b) => {
+      let farkA = a.sonKilo === "" ? 9999 : a.sonKilo - a.ilkKilo;
+      let farkB = b.sonKilo === "" ? 9999 : b.sonKilo - b.ilkKilo;
+      return farkA - farkB;
+    });
+
+    siraliListe.forEach((kisi, index) => {
+      let fark = kisi.sonKilo === "" ? "" : (kisi.sonKilo - kisi.ilkKilo);
+      let farkYazi = "-";
+      let yuzdeKayip = "-";
+      let durum = "Bekliyor";
+
+      if (fark !== "") {
+        if (fark < 0) {
+          farkYazi = `<span class="eksi">${fark.toFixed(1)} kg</span>`;
+          yuzdeKayip = ((Math.abs(fark) / kisi.ilkKilo) * 100).toFixed(2) + "%";
+          durum = "Kilo verdi";
+        } else if (fark > 0) {
+          farkYazi = `<span class="arti">+${fark.toFixed(1)} kg</span>`;
+          yuzdeKayip = "0%";
+          durum = "Kilo aldı";
+        } else {
+          farkYazi = "0 kg";
+          yuzdeKayip = "0%";
+          durum = "Aynı";
+        }
+      }
+
+      let gercekIndex = yarismacilar.indexOf(kisi);
+
+      liste.innerHTML += `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${kisi.ad}</td>
+          <td>${kisi.ilkTarih}</td>
+          <td>${kisi.gecBaslamaGunu} gün</td>
+          <td>${kisi.ilkKilo} kg</td>
+          <td>${kisi.sonTarih || "-"}</td>
+          <td>${kisi.sonKilo === "" ? "-" : kisi.sonKilo + " kg"}</td>
+          <td>${farkYazi}</td>
+          <td>${yuzdeKayip}</td>
+          <td>${durum}</td>
+          <td><button class="duzenle" onclick="duzenle(${gercekIndex})">Düzenle</button></td>
+          <td><button class="sil" onclick="sil(${gercekIndex})">Sil</button></td>
+        </tr>
+      `;
+    });
+
+    kazananGoster();
+    ustBilgiGuncelle();
+  }
+
+  function kazananGoster() {
+    let tamamlananlar = yarismacilar.filter(kisi => kisi.sonKilo !== "");
+
+    if (tamamlananlar.length === 0) {
+      document.getElementById("kazanan").innerHTML = "Henüz son tartım girilmedi.";
+      return;
+    }
+
+    tamamlananlar.sort((a, b) => {
+      return (a.sonKilo - a.ilkKilo) - (b.sonKilo - b.ilkKilo);
+    });
+
+    let kazanan = tamamlananlar[0];
+    let verilen = (kazanan.ilkKilo - kazanan.sonKilo).toFixed(1);
+    let yuzde = ((verilen / kazanan.ilkKilo) * 100).toFixed(2);
+
+    document.getElementById("kazanan").innerHTML =
+      `🥇 Şu an lider: ${kazanan.ad} — ${verilen} kg vermiş, yani %${yuzde} kayıp!`;
+  }
+
+  function duzenle(index) {
+    let kisi = yarismacilar[index];
+
+    document.getElementById("ad").value = kisi.ad;
+    document.getElementById("ilkTarih").value = kisi.ilkTarih;
+    document.getElementById("ilkKilo").value = kisi.ilkKilo;
+    document.getElementById("sonTarih").value = kisi.sonTarih;
+    document.getElementById("sonKilo").value = kisi.sonKilo;
+
+    duzenlenenIndex = index;
+    window.scrollTo(0, 0);
+  }
+
+  function sil(index) {
+    if (confirm("Bu kişiyi silmek istiyor musun?")) {
+      yarismacilar.splice(index, 1);
+      localStorage.setItem("yarismacilar", JSON.stringify(yarismacilar));
+      listele();
+    }
+  }
+
+  function temizle() {
+    document.getElementById("ad").value = "";
+    document.getElementById("ilkTarih").value = "";
+    document.getElementById("ilkKilo").value = "";
+    document.getElementById("sonTarih").value = "";
+    document.getElementById("sonKilo").value = "";
+  }
+
+  function excelIndir() {
+    let csv = "Sıra,Ad,İlk Tarih,Geç Başlama,İlk Kilo,Son Tarih,Son Kilo,Fark,Yüzde Kayıp,Durum\n";
+
+    let siraliListe = [...yarismacilar].sort((a, b) => {
+      let farkA = a.sonKilo === "" ? 9999 : a.sonKilo - a.ilkKilo;
+      let farkB = b.sonKilo === "" ? 9999 : b.sonKilo - b.ilkKilo;
+      return farkA - farkB;
+    });
+
+    siraliListe.forEach((kisi, index) => {
+      let fark = kisi.sonKilo === "" ? "" : (kisi.sonKilo - kisi.ilkKilo).toFixed(1);
+      let yuzde = "-";
+      let durum = "Bekliyor";
+
+      if (fark !== "") {
+        if (fark < 0) {
+          yuzde = ((Math.abs(fark) / kisi.ilkKilo) * 100).toFixed(2) + "%";
+          durum = "Kilo verdi";
+        } else if (fark > 0) {
+          yuzde = "0%";
+          durum = "Kilo aldı";
+        } else {
+          yuzde = "0%";
+          durum = "Aynı";
+        }
+      }
+
+      csv += `${index + 1},${kisi.ad},${kisi.ilkTarih},${kisi.gecBaslamaGunu} gün,${kisi.ilkKilo},${kisi.sonTarih || "-"},${kisi.sonKilo || "-"},${fark || "-"},${yuzde},${durum}\n`;
+    });
+
+    let blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "diyet-yarismasi.csv";
+    link.click();
+  }
+
+  function pdfKaydet() {
+    window.print();
+  }
+
+  function yedekIndir() {
+    let veri = {
+      ayarlar: ayarlar,
+      yarismacilar: yarismacilar
+    };
+
+    let blob = new Blob([JSON.stringify(veri, null, 2)], { type: "application/json" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "diyet-yarismasi-yedek.json";
+    link.click();
+  }
+
+  function yedekYukle(event) {
+    let dosya = event.target.files[0];
+
+    if (!dosya) return;
+
+    let okuyucu = new FileReader();
+
+    okuyucu.onload = function(e) {
+      let veri = JSON.parse(e.target.result);
+
+      if (veri.ayarlar && veri.yarismacilar) {
+        ayarlar = veri.ayarlar;
+        yarismacilar = veri.yarismacilar;
+
+        localStorage.setItem("ayarlar", JSON.stringify(ayarlar));
+        localStorage.setItem("yarismacilar", JSON.stringify(yarismacilar));
+
+        ayarlariYukle();
+        listele();
+
+        alert("Yedek başarıyla yüklendi.");
+      } else {
+        alert("Bu dosya uygun yedek dosyası değil.");
+      }
+    };
+
+    okuyucu.readAsText(dosya);
+  }
+  if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+function sonucKartiPaylas() {
+  let tamamlananlar = yarismacilar.filter(kisi => kisi.sonKilo !== "");
+
+  if (tamamlananlar.length === 0) {
+    alert("Sonuç kartı için en az bir kişinin son kilosu girilmiş olmalı.");
+    return;
+  }
+
+  tamamlananlar.sort((a, b) => {
+    return (a.sonKilo - a.ilkKilo) - (b.sonKilo - b.ilkKilo);
+  });
+
+  let canvas = document.createElement("canvas");
+  canvas.width = 900;
+  canvas.height = 1100;
+
+  let ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#fff4f8";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#f77a91";
+  ctx.fillRect(0, 0, canvas.width, 180);
+
+  ctx.fillStyle = "black";
+  ctx.font = "bold 48px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("🏆 Diyet Yarışması Sonuçları", 450, 95);
+
+  ctx.font = "26px Arial";
+  ctx.fillText("Haftalık Tartım Listesi", 450, 140);
+
+  let y = 250;
+
+  tamamlananlar.slice(0, 8).forEach((kisi, index) => {
+    let verilen = (kisi.ilkKilo - kisi.sonKilo).toFixed(1);
+    let yuzde = ((verilen / kisi.ilkKilo) * 100).toFixed(2);
+
+    ctx.fillStyle = index === 0 ? "#fff176" : "#ffffff";
+    ctx.fillRect(70, y - 45, 760, 85);
+
+    ctx.strokeStyle = "#f77a91";
+    ctx.strokeRect(70, y - 45, 760, 85);
+
+    ctx.fillStyle = "black";
+    ctx.font = "bold 28px Arial";
+
+    let madalya = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : index + 1 + ".";
+
+    ctx.textAlign = "left";
+    ctx.fillText(`${madalya} ${kisi.ad}`, 100, y);
+
+    ctx.textAlign = "right";
+    ctx.fillText(`${verilen} kg`, 780, y);
+
+    ctx.font = "20px Arial";
+    ctx.fillText(`%${yuzde} kayıp`, 780, y + 28);
+
+    y += 105;
+  });
+
+  ctx.fillStyle = "#f77a91";
+  ctx.fillRect(0, 1000, canvas.width, 100);
+
+  ctx.fillStyle = "black";
+  ctx.font = "bold 24px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("Diyet Yarışması Takip Programı", 450, 1060);
+
+  canvas.toBlob(async function(blob) {
+    let dosya = new File([blob], "diyet-yarismasi-sonuc.png", { type: "image/png" });
+
+    if (navigator.canShare && navigator.canShare({ files: [dosya] })) {
+      await navigator.share({
+        title: "Diyet Yarışması Sonuçları",
+        text: "Haftalık tartım sonuçları hazır 🏆",
+        files: [dosya]
+      });
+    } else {
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "diyet-yarismasi-sonuc.png";
+      link.click();
+      alert("Sonuç kartı indirildi. WhatsApp'tan görsel olarak paylaşabilirsin.");
+    }
+  });
+}
+</script>
+
+</body>
+</html>
