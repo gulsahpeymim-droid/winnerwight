@@ -688,6 +688,60 @@
     ctx.fillStyle = "#333333";
     ctx.font = "bold 36px Arial";
     ctx.fillText("📊 Kilo Değişim Grafiği Analizi", 540, y);
+    y += 60;
+
+let grafikX = 120;
+let grafikY = y;
+let grafikW = 840;
+let grafikH = 420;
+
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(grafikX, grafikY, grafikW, grafikH);
+
+ctx.strokeStyle = "#dddddd";
+ctx.strokeRect(grafikX, grafikY, grafikW, grafikH);
+
+let grafikKisiler = tamamlananlar.slice(0, 4);
+let maxKilo = Math.max(...grafikKisiler.map(k => Math.max(k.ilkKilo, k.sonKilo))) + 5;
+let minKilo = Math.min(...grafikKisiler.map(k => Math.min(k.ilkKilo, k.sonKilo))) - 5;
+
+let barGrupW = grafikW / grafikKisiler.length;
+let barW = 55;
+
+grafikKisiler.forEach((kisi, i) => {
+  let x = grafikX + i * barGrupW + barGrupW / 2;
+
+  let ilkH = ((kisi.ilkKilo - minKilo) / (maxKilo - minKilo)) * (grafikH - 90);
+  let sonH = ((kisi.sonKilo - minKilo) / (maxKilo - minKilo)) * (grafikH - 90);
+
+  let baseY = grafikY + grafikH - 50;
+
+  ctx.fillStyle = "#FFD84D";
+  ctx.fillRect(x - 65, baseY - ilkH, barW, ilkH);
+
+  ctx.fillStyle = "#66BB6A";
+  ctx.fillRect(x + 10, baseY - sonH, barW, sonH);
+
+  ctx.fillStyle = "black";
+  ctx.font = "16px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(kisi.ilkKilo + " kg", x - 38, baseY - ilkH - 8);
+  ctx.fillText(kisi.sonKilo + " kg", x + 37, baseY - sonH - 8);
+
+  ctx.font = "18px Arial";
+  ctx.fillText(kisi.ad, x, baseY + 30);
+});
+
+ctx.fillStyle = "#FFD84D";
+ctx.fillRect(360, grafikY + 20, 25, 15);
+ctx.fillStyle = "black";
+ctx.font = "18px Arial";
+ctx.fillText("İlk Kilo", 430, grafikY + 34);
+
+ctx.fillStyle = "#66BB6A";
+ctx.fillRect(520, grafikY + 20, 25, 15);
+ctx.fillStyle = "black";
+ctx.fillText("Son Kilo", 595, grafikY + 34);
 
     // 4. En Alt Sabit Bilgi Çubuğu
     ctx.fillStyle = "#2F80ED";
