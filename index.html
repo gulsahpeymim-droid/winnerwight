@@ -878,8 +878,8 @@ ctx.fillText("Son Kilo", 595, grafikY + 34);
     let tamamlananlar = yarismacilar.filter(x => x.sonKilo !== "");
 
     const etiketler = tamamlananlar.map(x => x.ad);
-    let ilkKilolar = yarismacilar.map(x => Number(x.ilkKilo) || 0);
-let sonKilolar = yarismacilar.map(x => Number(x.sonKilo) || 0);
+    let ilkKilolar = tamamlananlar.map(x => Number(x.ilkKilo) || 0);
+let sonKilolar = tamamlananlar.map(x => Number(x.sonKilo) || 0);
 
     if (myChart) {
       myChart.destroy();
