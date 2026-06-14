@@ -725,7 +725,7 @@
 
     let tamamlananlar = yarismacilar.filter(x => x.sonKilo !== "");
 
-    const etiketler = ...tamamlananlar.map(x => x.ad);
+    const etiketler = tamamlananlar.map(x => x.ad);
     const ilkKilolar = tamamlananlar.map(x => Number(x.ilkKilo));
     const sonKilolar = tamamlananlar.map(x => Number(x.sonKilo));
 
